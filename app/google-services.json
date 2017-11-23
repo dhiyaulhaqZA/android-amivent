@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "832726096683",
+    "firebase_url": "https://amikom-event.firebaseio.com",
+    "project_id": "amikom-event",
+    "storage_bucket": "amikom-event.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:832726096683:android:2d9bb89e016bc4c4",
+        "android_client_info": {
+          "package_name": "id.ac.amikom.amivent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "832726096683-v5rp059noj86fj0kipt3rcb5999oma39.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "id.ac.amikom.amivent",
+            "certificate_hash": "a53d2c0fc51e33dd631cb31a214db7b081d4b83f"
+          }
+        },
+        {
+          "client_id": "832726096683-ns3qqvi17k97bibellfhpuqoc2tjq0c7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2rkNaUxbQTshRv9hXggjWpN6Lg2_Dr38"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "832726096683-ns3qqvi17k97bibellfhpuqoc2tjq0c7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
