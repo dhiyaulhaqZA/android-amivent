@@ -1,6 +1,7 @@
 package id.ac.amikom.amivent.auth;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.util.Patterns;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -79,14 +80,16 @@ public class AuthInteractor {
 
     private boolean isEmailPasswordValid(String email, String password) {
         boolean isEmpty = email.equals("") || password.equals("");
-        boolean isNotEmailMatches = !isEmpty && !Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        boolean isEmailMatches = Patterns.EMAIL_ADDRESS.matcher(email).matches();
+        boolean isAmikomEmail = (email.endsWith("@students.amikom.ac.id") || email.endsWith("@amikom.ac.id"));
+        boolean isEmailInvalid = !isEmpty && !(isEmailMatches && isAmikomEmail);
         boolean isNotPasswordSizeGreaterThanFive = !isEmpty && !(password.length() > 5);
 
         if (isEmpty) mAuthListener.onFailed("Email or password can not be empty", "");
-        if (isNotEmailMatches) mAuthListener.onFailed("Invalid email", "");
+        if (isEmailInvalid) mAuthListener.onFailed("Must use AMIKOM email", "");
         if (isNotPasswordSizeGreaterThanFive) mAuthListener.onFailed("Password must be greater than 5", "");
 
-        return isEmpty || isNotEmailMatches || isNotPasswordSizeGreaterThanFive;
+        return isEmpty || isEmailInvalid || isNotPasswordSizeGreaterThanFive;
     }
 
     public interface OnAuthListener {
