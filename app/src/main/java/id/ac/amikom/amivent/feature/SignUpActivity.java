@@ -12,11 +12,12 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
 
+import id.ac.amikom.amivent.BaseActivity;
 import id.ac.amikom.amivent.MainApp;
 import id.ac.amikom.amivent.R;
 import id.ac.amikom.amivent.auth.AuthInteractor;
 
-public class SignUpActivity extends AppCompatActivity implements AuthInteractor.OnAuthListener {
+public class SignUpActivity extends BaseActivity implements AuthInteractor.OnAuthListener {
 
     private static final String TAG = SignUpActivity.class.getSimpleName();
     private EditText mEtName;
@@ -41,7 +42,7 @@ public class SignUpActivity extends AppCompatActivity implements AuthInteractor.
     @Override
     public void onSuccess(FirebaseUser user) {
         Log.d(TAG, "createUser:success");
-        ((MainApp) getApplication()).setUser(user);
+        getMainApp().setUser(user);
         Intent intent = new Intent(SignUpActivity.this, MainActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -66,10 +67,11 @@ public class SignUpActivity extends AppCompatActivity implements AuthInteractor.
     }
 
     private void createUser() {
+        String name = mEtName.getText().toString().trim();
         String email = mEtEmail.getText().toString().trim();
         String password = mEtPassword.getText().toString().trim();
 
-        mAuthInteractor.registerAuthentication(email, password);
+        mAuthInteractor.registerAuthentication(name, email, password);
     }
 
     private void setupView() {

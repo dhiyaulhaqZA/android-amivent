@@ -13,11 +13,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
 
-import id.ac.amikom.amivent.MainApp;
+import id.ac.amikom.amivent.BaseActivity;
 import id.ac.amikom.amivent.R;
 import id.ac.amikom.amivent.auth.AuthInteractor;
 
-public class LoginActivity extends AppCompatActivity
+public class LoginActivity extends BaseActivity
         implements View.OnClickListener, AuthInteractor.OnAuthListener {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
@@ -80,7 +80,7 @@ public class LoginActivity extends AppCompatActivity
     public void onSuccess(FirebaseUser user) {
         Log.d(TAG, "signInWithEmail:success");
         mUser = mAuthInteractor.getCurrentUser();
-        ((MainApp) getApplication()).setUser(mUser);
+        getMainApp().setUser(mUser);
         startActivity(new Intent(LoginActivity.this, MainActivity.class));
         finish();
     }

@@ -4,6 +4,57 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
     tools:context="id.ac.amikom.amivent.feature.ProfileActivity">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp">
+
+        <ImageView
+            android:id="@+id/img_profile_photo"
+            android:layout_width="88dp"
+            android:layout_height="88dp"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/ic_launcher" />
+
+        <ProgressBar
+            android:id="@+id/pb_profile_photo_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+    <EditText
+        android:id="@+id/et_profile_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:inputType="textCapWords" />
+
+    <EditText
+        android:id="@+id/et_profile_organization"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Organization"
+        android:inputType="textCapWords" />
+
+    <EditText
+        android:id="@+id/et_profile_no_id"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="NIM/NIK"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/et_profile_phone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Phone number"
+        android:inputType="phone" />
 </LinearLayout>

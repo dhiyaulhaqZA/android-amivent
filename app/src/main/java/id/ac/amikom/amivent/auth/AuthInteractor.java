@@ -1,7 +1,6 @@
 package id.ac.amikom.amivent.auth;
 
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.util.Patterns;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -9,6 +8,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 
 /**
  * Created by dhiyaulhaqza on 11/22/17.
@@ -46,16 +46,18 @@ public class AuthInteractor {
                 });
     }
 
-    public void registerAuthentication(String email, String password) {
+    public void registerAuthentication(final String name, String email, String password) {
 
         if (isEmailPasswordValid(email, password)) return;
+        if (name.isEmpty()) {
+            mAuthListener.onFailed("Please input your name", "");
+        }
 
         mAuthListener.onLoadingStart();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        mAuthListener.onLoadingStop();
                         if (task.isSuccessful()) {
                             mUser = getCurrentUser();
                             mAuthListener.onSuccess(mUser);
