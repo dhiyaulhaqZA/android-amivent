@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context="id.ac.amikom.amivent.feature.SignUpActivity">
+    tools:context="id.ac.amikom.avent.feature.SignUpActivity">
 
     <ProgressBar
         android:id="@+id/pb_signup_loading"
@@ -14,18 +14,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:visibility="gone" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Name" />
-
-    <EditText
-        android:id="@+id/et_signup_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:inputType="textCapWords" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -51,11 +39,25 @@
         android:layout_height="wrap_content"
         android:inputType="textPassword" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Re-type password" />
+
+    <EditText
+        android:id="@+id/et_signup_retype_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword" />
+
     <Button
         android:id="@+id/btn_signup"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:background="@drawable/btn_custom"
+        android:textColor="@android:color/white"
         android:text="Sign up" />
 
 </LinearLayout>

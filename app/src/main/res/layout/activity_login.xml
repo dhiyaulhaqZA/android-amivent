@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context="id.ac.amikom.amivent.feature.LoginActivity">
+    tools:context="id.ac.amikom.avent.feature.LoginActivity">
 
     <ProgressBar
         android:id="@+id/pb_signin_loading"
@@ -13,6 +13,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:visibility="gone" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:text="AVENT"
+        android:textSize="52dp"
+        android:textColor="@color/colorPrimary"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -52,7 +60,9 @@
         android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/btn_custom"
         android:layout_marginTop="16dp"
+        android:textColor="@android:color/white"
         android:text="Sign in" />
 
     <TextView

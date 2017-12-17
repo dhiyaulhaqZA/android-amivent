@@ -1,4 +1,4 @@
-package id.ac.amikom.amivent.auth;
+package id.ac.amikom.avent.auth;
 
 import android.support.annotation.NonNull;
 import android.util.Patterns;
@@ -8,7 +8,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
 /**
  * Created by dhiyaulhaqza on 11/22/17.
@@ -27,18 +26,16 @@ public class AuthInteractor {
     }
 
     public void loginAuthentication(String email, String password) {
-
-        if (isEmailPasswordValid(email, password)) return;
-
-        mAuthListener.onLoadingStart();
+        if (isEmailPasswordInvalid(email, password)) return;
+        mAuthListener.onAuthLoadingStart();
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        mAuthListener.onLoadingStop();
+                        mAuthListener.onAuthLoadingStop();
                         if (task.isSuccessful()) {
                             mUser = getCurrentUser();
-                            mAuthListener.onSuccess(mUser);
+                            mAuthListener.onAuthSuccess(mUser);
                         } else {
                             notifyTaskFailure(task);
                         }
@@ -46,21 +43,18 @@ public class AuthInteractor {
                 });
     }
 
-    public void registerAuthentication(final String name, String email, String password) {
-
-        if (isEmailPasswordValid(email, password)) return;
-        if (name.isEmpty()) {
-            mAuthListener.onFailed("Please input your name", "");
-        }
-
-        mAuthListener.onLoadingStart();
+    public void registerAuthentication(String email, String password, String retypePassword) {
+        boolean isPasswordMatch = retypePassword.equals(password);
+        if (!isPasswordMatch) mAuthListener.onAuthFailed("Password doesn't match", "");
+        if (isEmailPasswordInvalid(email, password) || !isPasswordMatch) return;
+        mAuthListener.onAuthLoadingStart();
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             mUser = getCurrentUser();
-                            mAuthListener.onSuccess(mUser);
+                            mAuthListener.onAuthSuccess(mUser);
                         } else {
                             notifyTaskFailure(task);
                         }
@@ -77,31 +71,31 @@ public class AuthInteractor {
         if (task.getException() != null) {
             errLog = task.getException().getMessage();
         }
-        mAuthListener.onFailed("Authentication failed.", errLog);
+        mAuthListener.onAuthFailed("Authentication failed.", errLog);
     }
 
-    private boolean isEmailPasswordValid(String email, String password) {
+    private boolean isEmailPasswordInvalid(String email, String password) {
         boolean isEmpty = email.equals("") || password.equals("");
         boolean isEmailMatches = Patterns.EMAIL_ADDRESS.matcher(email).matches();
         boolean isAmikomEmail = (email.endsWith("@students.amikom.ac.id") || email.endsWith("@amikom.ac.id"));
         boolean isEmailInvalid = !isEmpty && !(isEmailMatches && isAmikomEmail);
         boolean isNotPasswordSizeGreaterThanFive = !isEmpty && !(password.length() > 5);
 
-        if (isEmpty) mAuthListener.onFailed("Email or password can not be empty", "");
-        if (isEmailInvalid) mAuthListener.onFailed("Must use AMIKOM email", "");
-        if (isNotPasswordSizeGreaterThanFive) mAuthListener.onFailed("Password must be greater than 5", "");
+        if (isEmpty) mAuthListener.onAuthFailed("Email or password can not be empty", "");
+        if (isEmailInvalid) mAuthListener.onAuthFailed("Must use AMIKOM email", "");
+        if (isNotPasswordSizeGreaterThanFive) mAuthListener.onAuthFailed("Password must be greater than 5", "");
 
         return isEmpty || isEmailInvalid || isNotPasswordSizeGreaterThanFive;
     }
 
     public interface OnAuthListener {
-        void onSuccess(FirebaseUser user);
+        void onAuthSuccess(FirebaseUser user);
 
-        void onFailed(String errMsg, String errLog);
+        void onAuthFailed(String errMsg, String errLog);
 
-        void onLoadingStart();
+        void onAuthLoadingStart();
 
-        void onLoadingStop();
+        void onAuthLoadingStop();
     }
 }
 

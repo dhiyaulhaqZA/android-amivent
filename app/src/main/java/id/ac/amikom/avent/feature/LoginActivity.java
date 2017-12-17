@@ -1,7 +1,6 @@
-package id.ac.amikom.amivent.feature;
+package id.ac.amikom.avent.feature;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,9 +12,10 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
 
-import id.ac.amikom.amivent.BaseActivity;
-import id.ac.amikom.amivent.R;
-import id.ac.amikom.amivent.auth.AuthInteractor;
+import id.ac.amikom.avent.BaseActivity;
+import id.ac.amikom.avent.MainActivity;
+import id.ac.amikom.avent.R;
+import id.ac.amikom.avent.auth.AuthInteractor;
 
 public class LoginActivity extends BaseActivity
         implements View.OnClickListener, AuthInteractor.OnAuthListener {
@@ -50,6 +50,7 @@ public class LoginActivity extends BaseActivity
 
     private void checkIfUserLogedIn() {
         if (mUser != null) {
+            getMainApp().setUser(mUser);
             startActivity(new Intent(this, MainActivity.class));
             finish();
         }
@@ -64,6 +65,7 @@ public class LoginActivity extends BaseActivity
                 startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
                 break;
             case R.id.btn_login:
+                hideKeyboard();
                 loginWithEmailAndPassword();
                 break;
         }
@@ -77,7 +79,7 @@ public class LoginActivity extends BaseActivity
     }
 
     @Override
-    public void onSuccess(FirebaseUser user) {
+    public void onAuthSuccess(FirebaseUser user) {
         Log.d(TAG, "signInWithEmail:success");
         mUser = mAuthInteractor.getCurrentUser();
         getMainApp().setUser(mUser);
@@ -86,18 +88,18 @@ public class LoginActivity extends BaseActivity
     }
 
     @Override
-    public void onFailed(String errMsg, String errLog) {
-        Log.w(TAG, "onFailed: " + errLog);
+    public void onAuthFailed(String errMsg, String errLog) {
+        Log.w(TAG, "onAuthFailed: " + errLog);
         Toast.makeText(this, errMsg, Toast.LENGTH_SHORT).show();
     }
 
     @Override
-    public void onLoadingStart() {
+    public void onAuthLoadingStart() {
         mPbLoading.setVisibility(View.VISIBLE);
     }
 
     @Override
-    public void onLoadingStop() {
+    public void onAuthLoadingStop() {
         mPbLoading.setVisibility(View.GONE);
     }
 
