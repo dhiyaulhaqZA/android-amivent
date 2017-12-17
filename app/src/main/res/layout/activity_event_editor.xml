@@ -78,12 +78,14 @@
             android:id="@+id/et_event_start_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="false"
             android:hint="Time start" />
 
         <EditText
             android:id="@+id/et_event_end_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="false"
             android:hint="Time end" />
 
         <Button

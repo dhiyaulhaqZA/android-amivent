@@ -4,7 +4,6 @@ import android.app.DialogFragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,7 +16,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -27,14 +25,15 @@ import com.google.firebase.storage.UploadTask;
 import java.util.ArrayList;
 
 import id.ac.amikom.avent.BaseActivity;
-import id.ac.amikom.avent.MainApp;
 import id.ac.amikom.avent.R;
 import id.ac.amikom.avent.model.Event;
 import id.ac.amikom.avent.model.Participant;
 import id.ac.amikom.avent.picker.DatePickerFragment;
 import id.ac.amikom.avent.picker.DatePickerListener;
+import id.ac.amikom.avent.picker.TimePickerFragment;
+import id.ac.amikom.avent.picker.TimePickerListener;
 
-public class EventEditorActivity extends BaseActivity implements DatePickerListener {
+public class EventEditorActivity extends BaseActivity implements DatePickerListener, TimePickerListener {
 
     private static final int RC_PHOTO_PICKER = 2;
 
@@ -88,6 +87,21 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
             }
         });
 
+        mEtTimeStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment timePicker = new TimePickerFragment();
+                timePicker.show(getFragmentManager(), "time_start_picker");
+            }
+        });
+
+        mEtTimeEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment timePicker = new TimePickerFragment();
+                timePicker.show(getFragmentManager(), "time_end_picker");
+            }
+        });
         mBtnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -196,5 +210,14 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
     @Override
     public void onDatePicked(String date) {
         mEtDate.setText(date);
+    }
+
+    @Override
+    public void onTimeSetListener(String tag, int hour, int minute) {
+        if (tag.equals("time_start_picker")) {
+            mEtTimeStart.setText(hour + ":" + minute);
+        } else {
+            mEtTimeEnd.setText(hour + ":" + minute);
+        }
     }
 }
