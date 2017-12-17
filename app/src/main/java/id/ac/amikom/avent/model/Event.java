@@ -11,6 +11,7 @@ public class Event {
     private String title;
     private String organizer;
     private String description;
+    private String location;
     private String locationDescription;
     private String latitude;
     private String longitude;

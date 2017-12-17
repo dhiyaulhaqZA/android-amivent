@@ -59,7 +59,15 @@
             android:id="@+id/et_event_location"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:focusable="false"
             android:hint="Location" />
+
+        <EditText
+            android:id="@+id/et_event_location_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:hint="Location Description" />
 
         <EditText
             android:id="@+id/et_event_cp"

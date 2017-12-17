@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,6 +13,15 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.GeoDataClient;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.PlaceDetectionClient;
+import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -33,9 +43,10 @@ import id.ac.amikom.avent.picker.DatePickerListener;
 import id.ac.amikom.avent.picker.TimePickerFragment;
 import id.ac.amikom.avent.picker.TimePickerListener;
 
-public class EventEditorActivity extends BaseActivity implements DatePickerListener, TimePickerListener {
+public class EventEditorActivity extends BaseActivity implements DatePickerListener, TimePickerListener, GoogleApiClient.OnConnectionFailedListener {
 
     private static final int RC_PHOTO_PICKER = 2;
+    private static final String TAG = EventEditorActivity.class.getSimpleName();
 
     private ProgressBar mPbPhotoLoading;
     private ProgressBar mPbLoading;
@@ -44,6 +55,7 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
     private EditText mEtOrganizer;
     private EditText mEtDescription;
     private EditText mEtLocation;
+    private EditText mEtLocationDescription;
     private EditText mEtContactPerson;
     private EditText mEtDate;
     private EditText mEtTimeStart;
@@ -51,12 +63,30 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
     private Button mBtnSave;
     private Uri mEventPosterUri;
 
+    private static final int PLACE_PICKER_REQUEST = 1;
+    protected GeoDataClient mGeoDataClient;
+    private PlaceDetectionClient placeDetectionClient;
+    private GoogleApiClient mGoogleApiClient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_editor);
 
         setupView();
+
+        mGeoDataClient = Places.getGeoDataClient(this, null);
+
+        // Construct a PlaceDetectionClient.
+        placeDetectionClient = Places.getPlaceDetectionClient(this, null);
+
+        mGoogleApiClient = new GoogleApiClient
+                .Builder(this)
+                .addApi(Places.GEO_DATA_API)
+                .addApi(Places.PLACE_DETECTION_API)
+                .enableAutoManage(this, this)
+                .build();
+
     }
 
     private void setupView() {
@@ -65,6 +95,7 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
         mEtOrganizer = findViewById(R.id.et_event_organizer);
         mEtDescription = findViewById(R.id.et_event_description);
         mEtLocation = findViewById(R.id.et_event_location);
+        mEtLocationDescription = findViewById(R.id.et_event_location_description);
         mEtContactPerson = findViewById(R.id.et_event_cp);
         mEtDate = findViewById(R.id.et_event_date);
         mEtTimeStart = findViewById(R.id.et_event_start_time);
@@ -108,18 +139,47 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
                 postNewEvent();
             }
         });
+
+        mEtLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+                try {
+                    startActivityForResult(builder.build(EventEditorActivity.this), PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == RC_PHOTO_PICKER && resultCode == RESULT_OK) {
-            Uri selectedImageUri = data.getData();
-            if (selectedImageUri == null) return;
+        if (resultCode == RESULT_OK) {
+            if (requestCode == RC_PHOTO_PICKER) {
+                Uri selectedImageUri = data.getData();
+                if (selectedImageUri == null) return;
 
-            mImgPoster.setImageURI(selectedImageUri);
-            uploadPosterEvent(selectedImageUri);
+                mImgPoster.setImageURI(selectedImageUri);
+                uploadPosterEvent(selectedImageUri);
+            } else if (requestCode == PLACE_PICKER_REQUEST) {
+                Place place = PlacePicker.getPlace(this, data);
+                mEtLocation.setText(place.getAddress());
+            }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+
     }
 
     private void uploadPosterEvent(Uri selectedImageUri) {
@@ -156,6 +216,8 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
     private void postNewEvent() {
         mPbLoading.setVisibility(View.VISIBLE);
         Event event = buildEvent();
+        if (event.getTitle().equals("") && event.getDate().equals("")) return;
+
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference mDatabase = firebaseDatabase.getReference("event_board");
         mDatabase.push()
@@ -183,6 +245,7 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
         String organization = mEtOrganizer.getText().toString().trim();
         String description = mEtDescription.getText().toString().trim();
         String location = mEtLocation.getText().toString().trim();
+        String locationDescription = mEtLocationDescription.getText().toString().trim();
         String contactPerson = mEtContactPerson.getText().toString().trim();
         String date = mEtDate.getText().toString().trim();
         String timeStart = mEtTimeStart.getText().toString().trim();
@@ -193,6 +256,7 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
         event.setOrganizer(organization);
         event.setDescription(description);
         event.setLocationDescription(location);
+        event.setLocationDescription(locationDescription);
         event.setContactPerson(contactPerson);
         event.setDate(date);
         event.setDate(date);
@@ -219,5 +283,10 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
         } else {
             mEtTimeEnd.setText(hour + ":" + minute);
         }
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Log.w(TAG, "onConnectionFailed: ");
     }
 }
