@@ -31,6 +31,7 @@ import id.ac.amikom.avent.utility.ImageUtil;
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, UserData.OnUserDataFetch {
 
+    private NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,16 +49,16 @@ public class MainActivity extends BaseActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.fragment_container, new EventBoardFragment())
                 .commit();
 
-        navigationView.setCheckedItem(R.id.nav_camera);
+        navigationView.setCheckedItem(R.id.nav_timeline);
 
-        View view =  navigationView.getHeaderView(0);
+        View view = navigationView.getHeaderView(0);
         ImageView imgProfilePhoto = view.findViewById(R.id.img_header_profile_photo);
         TextView tvProfileName = view.findViewById(R.id.tv_header_profile_name);
         TextView tvProfileEmail = view.findViewById(R.id.tv_header_profile_email);
@@ -107,7 +108,7 @@ public class MainActivity extends BaseActivity
                 finish();
                 return true;
             default:
-            return super.onOptionsItemSelected(item);
+                return super.onOptionsItemSelected(item);
         }
     }
 
@@ -117,23 +118,33 @@ public class MainActivity extends BaseActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+        switch (id) {
+            case R.id.nav_timeline:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_container, new EventBoardFragment())
+                        .commit();
+                break;
+            case R.id.nav_profile:
+                startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+                break;
+            case R.id.nav_signout:
+                FirebaseAuth.getInstance().signOut();
+                UserPref userPref = new UserPref(MainActivity.this);
+                userPref.cleanUpUserPref();
+                startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                finish();
+                break;
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigationView.setCheckedItem(R.id.nav_timeline);
     }
 
     @Override
