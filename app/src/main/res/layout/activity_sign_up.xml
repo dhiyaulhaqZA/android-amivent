@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
+    android:gravity="center_vertical"
     tools:context="id.ac.amikom.avent.feature.SignUpActivity">
 
     <ProgressBar
@@ -14,6 +15,14 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:visibility="gone" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:text="AVENT"
+        android:textSize="52dp"
+        android:textColor="@color/colorPrimary"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:layout_width="wrap_content"

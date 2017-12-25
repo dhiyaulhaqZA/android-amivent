@@ -14,14 +14,16 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBGQlakrkEAA_xV-79xs70L1Txh6RMXLF0" />
 
-        <activity android:name=".feature.LoginActivity">
+        <activity android:name=".feature.LoginActivity"
+            android:theme="@style/AuthTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".feature.SignUpActivity" />
+        <activity android:name=".feature.SignUpActivity"
+            android:theme="@style/AuthTheme"/>
         <activity android:name=".feature.ProfileActivity" />
         <activity android:name=".BaseActivity" />
         <activity
