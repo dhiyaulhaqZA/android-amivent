@@ -1,4 +1,4 @@
-package id.ac.amikom.avent.feature;
+package id.ac.amikom.avent.feature.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,10 +12,11 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
 
-import id.ac.amikom.avent.BaseActivity;
-import id.ac.amikom.avent.MainActivity;
+import id.ac.amikom.avent.main.BaseActivity;
+import id.ac.amikom.avent.main.MainActivity;
 import id.ac.amikom.avent.R;
 import id.ac.amikom.avent.auth.AuthInteractor;
+import id.ac.amikom.avent.feature.register.SignUpActivity;
 
 public class LoginActivity extends BaseActivity
         implements View.OnClickListener, AuthInteractor.OnAuthListener {

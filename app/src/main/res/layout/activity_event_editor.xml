@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context="id.ac.amikom.avent.feature.EventEditorActivity">
+        tools:context="id.ac.amikom.avent.feature.editor.EventEditorActivity">
 
         <ProgressBar
             android:id="@+id/pb_event_loading"

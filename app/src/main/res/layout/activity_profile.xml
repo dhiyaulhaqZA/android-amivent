@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    tools:context="id.ac.amikom.avent.feature.ProfileActivity">
+    tools:context="id.ac.amikom.avent.feature.profile.ProfileActivity">
 
     <ProgressBar
         android:id="@+id/pb_profile_loading"

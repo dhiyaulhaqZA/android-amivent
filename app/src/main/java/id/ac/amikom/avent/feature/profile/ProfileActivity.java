@@ -1,26 +1,23 @@
-package id.ac.amikom.avent.feature;
+package id.ac.amikom.avent.feature.profile;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.PersistableBundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import id.ac.amikom.avent.BaseActivity;
-import id.ac.amikom.avent.MainActivity;
+import id.ac.amikom.avent.main.BaseActivity;
+import id.ac.amikom.avent.main.MainActivity;
 import id.ac.amikom.avent.R;
 import id.ac.amikom.avent.model.User;
-import id.ac.amikom.avent.profile.UpdateUserProfile;
-import id.ac.amikom.avent.profile.UserPref;
+import id.ac.amikom.avent.user.UpdateUserProfile;
+import id.ac.amikom.avent.user.UserPref;
 import id.ac.amikom.avent.utility.ImageUtil;
 
 public class ProfileActivity extends BaseActivity implements View.OnClickListener, UpdateUserProfile.OnProfileUpdateListener {

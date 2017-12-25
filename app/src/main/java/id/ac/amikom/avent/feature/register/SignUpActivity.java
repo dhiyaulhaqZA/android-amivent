@@ -1,7 +1,6 @@
-package id.ac.amikom.avent.feature;
+package id.ac.amikom.avent.feature.register;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,14 +9,12 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserProfileChangeRequest;
 
-import id.ac.amikom.avent.BaseActivity;
+import id.ac.amikom.avent.main.BaseActivity;
 import id.ac.amikom.avent.R;
 import id.ac.amikom.avent.auth.AuthInteractor;
+import id.ac.amikom.avent.feature.profile.ProfileActivity;
 
 public class SignUpActivity extends BaseActivity implements AuthInteractor.OnAuthListener {
 

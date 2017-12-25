@@ -1,17 +1,14 @@
-package id.ac.amikom.avent;
+package id.ac.amikom.avent.main;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,12 +17,13 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import id.ac.amikom.avent.feature.EventBoardFragment;
-import id.ac.amikom.avent.feature.LoginActivity;
-import id.ac.amikom.avent.feature.ProfileActivity;
+import id.ac.amikom.avent.R;
+import id.ac.amikom.avent.feature.timeline.EventBoardFragment;
+import id.ac.amikom.avent.feature.login.LoginActivity;
+import id.ac.amikom.avent.feature.profile.ProfileActivity;
 import id.ac.amikom.avent.model.User;
-import id.ac.amikom.avent.profile.UserData;
-import id.ac.amikom.avent.profile.UserPref;
+import id.ac.amikom.avent.user.UserData;
+import id.ac.amikom.avent.user.UserPref;
 import id.ac.amikom.avent.utility.ImageUtil;
 
 public class MainActivity extends BaseActivity

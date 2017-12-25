@@ -1,4 +1,4 @@
-package id.ac.amikom.avent.feature;
+package id.ac.amikom.avent.feature.editor;
 
 import android.app.DialogFragment;
 import android.content.Intent;
@@ -7,10 +7,8 @@ import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -36,9 +34,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
-import java.util.zip.Inflater;
 
-import id.ac.amikom.avent.BaseActivity;
+import id.ac.amikom.avent.main.BaseActivity;
 import id.ac.amikom.avent.R;
 import id.ac.amikom.avent.model.Event;
 import id.ac.amikom.avent.model.Participant;

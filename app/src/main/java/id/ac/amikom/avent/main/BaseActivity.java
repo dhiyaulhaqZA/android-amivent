@@ -1,4 +1,4 @@
-package id.ac.amikom.avent;
+package id.ac.amikom.avent.main;
 
 import android.content.Context;
 import android.os.Bundle;

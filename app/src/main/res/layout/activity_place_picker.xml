@@ -4,6 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="id.ac.amikom.avent.feature.PlacePickerActivity">
+    tools:context="id.ac.amikom.avent.feature.placepicker.PlacePickerActivity">
 
 </android.support.constraint.ConstraintLayout>

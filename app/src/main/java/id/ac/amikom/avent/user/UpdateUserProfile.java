@@ -1,4 +1,4 @@
-package id.ac.amikom.avent.profile;
+package id.ac.amikom.avent.user;
 
 import android.content.Context;
 import android.net.Uri;
@@ -16,7 +16,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
-import id.ac.amikom.avent.MainApp;
+import id.ac.amikom.avent.main.MainApp;
 import id.ac.amikom.avent.model.User;
 
 /**

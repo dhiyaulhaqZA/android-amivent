@@ -1,4 +1,4 @@
-package id.ac.amikom.avent.feature;
+package id.ac.amikom.avent.feature.timeline;
 
 
 import android.content.Intent;
@@ -23,6 +23,8 @@ import com.google.firebase.database.Query;
 
 import id.ac.amikom.avent.R;
 import id.ac.amikom.avent.adapter.EventBoardAdapter;
+import id.ac.amikom.avent.feature.editor.EventEditorActivity;
+import id.ac.amikom.avent.feature.detail.DetailActivity;
 import id.ac.amikom.avent.model.Event;
 
 

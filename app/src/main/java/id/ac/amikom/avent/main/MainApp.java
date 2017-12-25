@@ -1,4 +1,4 @@
-package id.ac.amikom.avent;
+package id.ac.amikom.avent.main;
 
 import android.app.Application;
 

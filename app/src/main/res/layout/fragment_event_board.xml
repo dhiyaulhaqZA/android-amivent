@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:paddingBottom="4dp"
     android:paddingTop="4dp"
-    tools:context="id.ac.amikom.avent.feature.EventBoardFragment">
+    tools:context="id.ac.amikom.avent.feature.timeline.EventBoardFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_event_board"

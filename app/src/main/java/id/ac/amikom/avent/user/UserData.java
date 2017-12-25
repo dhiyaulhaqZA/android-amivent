@@ -1,4 +1,4 @@
-package id.ac.amikom.avent.profile;
+package id.ac.amikom.avent.user;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

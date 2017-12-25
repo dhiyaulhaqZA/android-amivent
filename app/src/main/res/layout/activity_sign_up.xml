@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:padding="16dp"
     android:gravity="center_vertical"
-    tools:context="id.ac.amikom.avent.feature.SignUpActivity">
+    tools:context="id.ac.amikom.avent.feature.register.SignUpActivity">
 
     <ProgressBar
         android:id="@+id/pb_signup_loading"

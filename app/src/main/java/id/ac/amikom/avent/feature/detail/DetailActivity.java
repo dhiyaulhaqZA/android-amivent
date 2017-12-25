@@ -1,4 +1,4 @@
-package id.ac.amikom.avent.feature;
+package id.ac.amikom.avent.feature.detail;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;

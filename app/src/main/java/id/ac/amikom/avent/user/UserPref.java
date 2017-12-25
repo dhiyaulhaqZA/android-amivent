@@ -1,4 +1,4 @@
-package id.ac.amikom.avent.profile;
+package id.ac.amikom.avent.user;
 
 import android.content.Context;
 
