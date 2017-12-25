@@ -56,7 +56,6 @@ public class MainActivity extends BaseActivity
                 .add(R.id.fragment_container, new EventBoardFragment())
                 .commit();
 
-        navigationView.setCheckedItem(R.id.nav_timeline);
 
         View view = navigationView.getHeaderView(0);
         ImageView imgProfilePhoto = view.findViewById(R.id.img_header_profile_photo);
