@@ -28,7 +28,7 @@ import id.ac.amikom.avent.model.Event;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EventBoardFragment extends Fragment {
+public class EventBoardFragment extends Fragment implements EventBoardAdapter.EventClickListener {
 
     private static final String TAG = EventBoardFragment.class.getSimpleName();
     private RecyclerView mRecyclerView;
@@ -116,7 +116,7 @@ public class EventBoardFragment extends Fragment {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        mEventAdapter = new EventBoardAdapter();
+        mEventAdapter = new EventBoardAdapter(this);
         mRecyclerView.setAdapter(mEventAdapter);
     }
 
@@ -127,5 +127,12 @@ public class EventBoardFragment extends Fragment {
                 startActivity(new Intent(getContext(), EventEditorActivity.class));
             }
         });
+    }
+
+    @Override
+    public void onEventClick(Event event) {
+        Intent intent = new Intent(getContext(), DetailActivity.class);
+        intent.putExtra("event", event);
+        startActivity(intent);
     }
 }

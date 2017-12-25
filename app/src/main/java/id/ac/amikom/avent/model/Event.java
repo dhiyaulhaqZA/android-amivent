@@ -1,12 +1,15 @@
 package id.ac.amikom.avent.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.List;
 
 /**
  * Created by dhiyaulhaqza on 12/3/17.
  */
 
-public class Event {
+public class Event implements Parcelable {
     private String posterUrl;
     private String title;
     private String organizer;
@@ -25,13 +28,14 @@ public class Event {
     }
 
     public Event(String posterUrl, String title, String organizer, String description,
-                 String locationDescription, String latitude, String longitude,
+                 String location, String locationDescription, String latitude, String longitude,
                  String contactPerson, String date, String startTime, String endTime,
                  List<Participant> participants) {
         this.posterUrl = posterUrl;
         this.title = title;
         this.organizer = organizer;
         this.description = description;
+        this.location = location;
         this.locationDescription = locationDescription;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -40,6 +44,41 @@ public class Event {
         this.startTime = startTime;
         this.endTime = endTime;
         this.participants = participants;
+    }
+
+    protected Event(Parcel in) {
+        posterUrl = in.readString();
+        title = in.readString();
+        organizer = in.readString();
+        description = in.readString();
+        location = in.readString();
+        locationDescription = in.readString();
+        latitude = in.readString();
+        longitude = in.readString();
+        contactPerson = in.readString();
+        date = in.readString();
+        startTime = in.readString();
+        endTime = in.readString();
+    }
+
+    public static final Creator<Event> CREATOR = new Creator<Event>() {
+        @Override
+        public Event createFromParcel(Parcel in) {
+            return new Event(in);
+        }
+
+        @Override
+        public Event[] newArray(int size) {
+            return new Event[size];
+        }
+    };
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 
     public String getPosterUrl() {
@@ -136,5 +175,26 @@ public class Event {
 
     public void setParticipants(List<Participant> participants) {
         this.participants = participants;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(posterUrl);
+        dest.writeString(title);
+        dest.writeString(organizer);
+        dest.writeString(description);
+        dest.writeString(location);
+        dest.writeString(locationDescription);
+        dest.writeString(latitude);
+        dest.writeString(longitude);
+        dest.writeString(contactPerson);
+        dest.writeString(date);
+        dest.writeString(startTime);
+        dest.writeString(endTime);
     }
 }

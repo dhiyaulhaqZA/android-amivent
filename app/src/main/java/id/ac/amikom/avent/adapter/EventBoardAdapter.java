@@ -21,9 +21,11 @@ import id.ac.amikom.avent.utility.ImageUtil;
 public class EventBoardAdapter extends RecyclerView.Adapter<EventBoardAdapter.ViewHolder> {
 
     public List<Event> eventList;
+    private EventClickListener eventClickListener;
 
-    public EventBoardAdapter() {
+    public EventBoardAdapter(EventClickListener eventClickListener) {
         eventList = new ArrayList<>();
+        this.eventClickListener = eventClickListener;
     }
 
     public void addEvent(Event event) {
@@ -56,7 +58,7 @@ public class EventBoardAdapter extends RecyclerView.Adapter<EventBoardAdapter.Vi
         return position;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         private ImageView mImgPoster;
         private TextView mTvTitle;
@@ -70,6 +72,7 @@ public class EventBoardAdapter extends RecyclerView.Adapter<EventBoardAdapter.Vi
             mTvTitle = itemView.findViewById(R.id.tv_item_event_title);
             mTvOrganizer = itemView.findViewById(R.id.tv_item_event_organizer);
             mTvDate = itemView.findViewById(R.id.tv_item_event_date);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(int position) {
@@ -81,5 +84,14 @@ public class EventBoardAdapter extends RecyclerView.Adapter<EventBoardAdapter.Vi
                 ImageUtil.loadImageFromUrl(mImgPoster, event.getPosterUrl());
             }
         }
+
+        @Override
+        public void onClick(View v) {
+            eventClickListener.onEventClick(eventList.get(getAdapterPosition()));
+        }
+    }
+
+    public interface EventClickListener {
+        void onEventClick(Event event);
     }
 }

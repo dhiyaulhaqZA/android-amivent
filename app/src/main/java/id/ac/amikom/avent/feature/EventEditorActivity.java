@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -67,13 +68,16 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
     protected GeoDataClient mGeoDataClient;
     private PlaceDetectionClient placeDetectionClient;
     private GoogleApiClient mGoogleApiClient;
+    private Place place;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_editor);
-
+        setTitle("Add Event");
         setupView();
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mGeoDataClient = Places.getGeoDataClient(this, null);
 
@@ -87,6 +91,15 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
                 .enableAutoManage(this, this)
                 .build();
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setupView() {
@@ -169,7 +182,7 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
                 mImgPoster.setImageURI(selectedImageUri);
                 uploadPosterEvent(selectedImageUri);
             } else if (requestCode == PLACE_PICKER_REQUEST) {
-                Place place = PlacePicker.getPlace(this, data);
+                place = PlacePicker.getPlace(this, data);
                 mEtLocation.setText(place.getAddress());
             }
         }
@@ -255,17 +268,18 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
         event.setTitle(title);
         event.setOrganizer(organization);
         event.setDescription(description);
-        event.setLocationDescription(location);
+        event.setLocation(location);
         event.setLocationDescription(locationDescription);
+        event.setLatitude(String.valueOf(place.getLatLng().latitude));
+        event.setLongitude(String.valueOf(place.getLatLng().longitude));
         event.setContactPerson(contactPerson);
         event.setDate(date);
         event.setDate(date);
         event.setStartTime(timeStart);
         event.setEndTime(timeEnd);
 
+
         if (mEventPosterUri != null) event.setPosterUrl(mEventPosterUri.toString());
-        event.setLatitude("");
-        event.setLongitude("");
         event.setParticipants(new ArrayList<Participant>());
 
         return event;
