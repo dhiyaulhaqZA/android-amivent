@@ -3,7 +3,11 @@ package id.ac.amikom.avent.feature;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -30,7 +34,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     private EditText mEtName;
     private EditText mEtOrganization;
     private EditText mEtPhoneNumber;
-    private Button mBtnSave;
 
     private UpdateUserProfile mUpdateUserProfile;
 
@@ -38,11 +41,33 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        setTitle("Profile");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mUpdateUserProfile = new UpdateUserProfile(this, this);
 
         setupView();
         writeDataIfExists();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_profile, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.id.action_save:
+                submitUserData();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void writeDataIfExists() {
@@ -66,9 +91,6 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         switch (view.getId()) {
             case R.id.img_profile_photo:
                 pickImageFromGallery();
-                break;
-            case R.id.btn_profile_save:
-                submitUserData();
                 break;
         }
     }
@@ -95,10 +117,8 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         mEtName = findViewById(R.id.et_profile_name);
         mEtOrganization = findViewById(R.id.et_profile_organization);
         mEtPhoneNumber = findViewById(R.id.et_profile_phone);
-        mBtnSave = findViewById(R.id.btn_profile_save);
 
         mImgPhoto.setOnClickListener(this);
-        mBtnSave.setOnClickListener(this);
     }
 
     private User buildUserData() {
