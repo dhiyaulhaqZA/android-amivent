@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -33,6 +34,7 @@ public class EventBoardFragment extends Fragment implements EventBoardAdapter.Ev
     private static final String TAG = EventBoardFragment.class.getSimpleName();
     private RecyclerView mRecyclerView;
     private FloatingActionButton mFabAddEvent;
+    private ProgressBar mProgressBar;
     private EventBoardAdapter mEventAdapter;
 
     private FirebaseDatabase mFirebaseDatabase;
@@ -76,10 +78,12 @@ public class EventBoardFragment extends Fragment implements EventBoardAdapter.Ev
     }
 
     private void attachDatabaseReadListener() {
+        mProgressBar.setVisibility(View.VISIBLE);
         if (mChildEventListener == null) {
             mChildEventListener = new ChildEventListener() {
                 @Override
                 public void onChildAdded(DataSnapshot dataSnapshot, String s) {
+                    mProgressBar.setVisibility(View.GONE);
                     Event event = dataSnapshot.getValue(Event.class);
                     mEventAdapter.addEvent(event);
                 }
@@ -113,6 +117,7 @@ public class EventBoardFragment extends Fragment implements EventBoardAdapter.Ev
     private void setupView(View view) {
         mFabAddEvent = view.findViewById(R.id.fab_event_board_create);
         mRecyclerView = view.findViewById(R.id.rv_event_board);
+        mProgressBar = view.findViewById(R.id.pb_event_board_loading);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
