@@ -6,6 +6,8 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -34,6 +36,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.zip.Inflater;
 
 import id.ac.amikom.avent.BaseActivity;
 import id.ac.amikom.avent.R;
@@ -61,7 +64,6 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
     private EditText mEtDate;
     private EditText mEtTimeStart;
     private EditText mEtTimeEnd;
-    private Button mBtnSave;
     private Uri mEventPosterUri;
 
     private static final int PLACE_PICKER_REQUEST = 1;
@@ -95,11 +97,16 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home) {
-            finish();
-            return true;
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            case R.menu.menu_create:
+                postNewEvent();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     private void setupView() {
@@ -113,7 +120,6 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
         mEtDate = findViewById(R.id.et_event_date);
         mEtTimeStart = findViewById(R.id.et_event_start_time);
         mEtTimeEnd = findViewById(R.id.et_event_end_time);
-        mBtnSave = findViewById(R.id.btn_event_save);
         mPbPhotoLoading = findViewById(R.id.pb_event_photo_loading);
         mPbLoading = findViewById(R.id.pb_event_loading);
 
@@ -146,12 +152,6 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
                 timePicker.show(getFragmentManager(), "time_end_picker");
             }
         });
-        mBtnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                postNewEvent();
-            }
-        });
 
         mEtLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,6 +169,12 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
         });
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_create, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     @Override
