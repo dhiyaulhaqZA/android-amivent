@@ -14,7 +14,8 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBGQlakrkEAA_xV-79xs70L1Txh6RMXLF0" />
 
-        <activity android:name=".feature.login.LoginActivity"
+        <activity
+            android:name=".feature.login.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AuthTheme">
             <intent-filter>
@@ -23,25 +24,29 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".feature.register.SignUpActivity"
+        <activity
+            android:name=".feature.register.SignUpActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AuthTheme"/>
-        <activity android:name=".feature.profile.ProfileActivity"
-            android:screenOrientation="portrait"/>
+            android:theme="@style/AuthTheme" />
+        <activity
+            android:name=".feature.profile.ProfileActivity"
+            android:screenOrientation="portrait" />
         <activity android:name=".main.BaseActivity" />
         <activity
             android:name=".main.MainActivity"
-            android:screenOrientation="portrait"
             android:label="@string/title_activity_main"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".feature.editor.EventEditorActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".feature.placepicker.PlacePickerActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".feature.detail.DetailActivity"
-            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".feature.placepicker.PlacePickerActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".feature.detail.DetailActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
