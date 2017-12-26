@@ -21,6 +21,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import id.ac.amikom.avent.R;
 import id.ac.amikom.avent.feature.editor.EventEditorActivity;
 import id.ac.amikom.avent.feature.detail.DetailActivity;
@@ -33,9 +36,9 @@ import id.ac.amikom.avent.model.Event;
 public class EventBoardFragment extends Fragment implements EventBoardAdapter.EventClickListener {
 
     private static final String TAG = EventBoardFragment.class.getSimpleName();
-    private RecyclerView mRecyclerView;
-    private FloatingActionButton mFabAddEvent;
-    private ProgressBar mProgressBar;
+    @BindView(R.id.rv_event_board) RecyclerView mRecyclerView;
+    @BindView(R.id.fab_event_board_create) FloatingActionButton mFabAddEvent;
+    @BindView(R.id.pb_event_board_loading) ProgressBar mProgressBar;
     private EventBoardAdapter mEventAdapter;
 
     private FirebaseDatabase mFirebaseDatabase;
@@ -57,12 +60,11 @@ public class EventBoardFragment extends Fragment implements EventBoardAdapter.Ev
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        ButterKnife.bind(this, view);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mDbReference = mFirebaseDatabase.getReference("event_board");
 
-        setupView(view);
-        setupViewListener();
+        setupRecyclerView();
     }
 
     @Override
@@ -115,10 +117,7 @@ public class EventBoardFragment extends Fragment implements EventBoardAdapter.Ev
         }
     }
 
-    private void setupView(View view) {
-        mFabAddEvent = view.findViewById(R.id.fab_event_board_create);
-        mRecyclerView = view.findViewById(R.id.rv_event_board);
-        mProgressBar = view.findViewById(R.id.pb_event_board_loading);
+    private void setupRecyclerView() {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -126,13 +125,9 @@ public class EventBoardFragment extends Fragment implements EventBoardAdapter.Ev
         mRecyclerView.setAdapter(mEventAdapter);
     }
 
-    private void setupViewListener() {
-        mFabAddEvent.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getContext(), EventEditorActivity.class));
-            }
-        });
+    @OnClick(R.id.fab_event_board_create)
+    public void onFabClick() {
+        startActivity(new Intent(getContext(), EventEditorActivity.class));
     }
 
     @Override

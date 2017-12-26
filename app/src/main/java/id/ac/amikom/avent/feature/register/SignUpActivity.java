@@ -11,6 +11,9 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import id.ac.amikom.avent.main.BaseActivity;
 import id.ac.amikom.avent.R;
 import id.ac.amikom.avent.auth.AuthInteractor;
@@ -19,11 +22,11 @@ import id.ac.amikom.avent.feature.profile.ProfileActivity;
 public class SignUpActivity extends BaseActivity implements AuthInteractor.OnAuthListener {
 
     private static final String TAG = SignUpActivity.class.getSimpleName();
-    private EditText mEtEmail;
-    private EditText mEtPassword;
-    private EditText mEtRetypePassword;
-    private Button mBtnSignUp;
-    private ProgressBar mPbLoading;
+    @BindView(R.id.et_signup_email) EditText mEtEmail;
+    @BindView(R.id.et_signup_password) EditText mEtPassword;
+    @BindView(R.id.et_signup_retype_password) EditText mEtRetypePassword;
+    @BindView(R.id.btn_signup) Button mBtnSignUp;
+    @BindView(R.id.pb_signup_loading) ProgressBar mPbLoading;
 
     private AuthInteractor mAuthInteractor;
 
@@ -32,10 +35,8 @@ public class SignUpActivity extends BaseActivity implements AuthInteractor.OnAut
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
-
+        ButterKnife.bind(this);
         mAuthInteractor = new AuthInteractor(this);
-        setupView();
-        setupViewListener();
     }
 
     @Override
@@ -76,21 +77,9 @@ public class SignUpActivity extends BaseActivity implements AuthInteractor.OnAut
         mAuthInteractor.registerAuthentication(email, password, retypePassword);
     }
 
-    private void setupView() {
-        mEtEmail = findViewById(R.id.et_signup_email);
-        mEtPassword = findViewById(R.id.et_signup_password);
-        mEtRetypePassword = findViewById(R.id.et_signup_retype_password);
-        mBtnSignUp = findViewById(R.id.btn_signup);
-        mPbLoading = findViewById(R.id.pb_signup_loading);
-    }
-
-    private void setupViewListener() {
-        mBtnSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                hideKeyboard();
-                createUser();
-            }
-        });
+    @OnClick(R.id.btn_signup)
+    public void onBtnSignUpClick() {
+        hideKeyboard();
+        createUser();
     }
 }

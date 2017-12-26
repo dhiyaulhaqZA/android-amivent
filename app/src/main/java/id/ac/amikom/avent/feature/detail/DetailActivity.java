@@ -19,6 +19,9 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import id.ac.amikom.avent.R;
 import id.ac.amikom.avent.feature.registevent.EventRegisterDialog;
 import id.ac.amikom.avent.model.Event;
@@ -26,25 +29,26 @@ import id.ac.amikom.avent.utility.ImageUtil;
 
 public class DetailActivity extends AppCompatActivity implements OnMapReadyCallback {
 
-    private ImageView imgPoster;
-    private TextView tvTitle;
-    private TextView tvOrganizer;
-    private TextView tvDescription;
-    private TextView tvLocation;
-    private TextView tvLocationDescription;
-    private TextView tvContactPerson;
-    private TextView tvDate;
-    private TextView tvTime;
-    private Button btnRegister;
+    @BindView(R.id.img_detail_poster) ImageView imgPoster;
+    @BindView(R.id.tv_detail_event_title) TextView tvTitle;
+    @BindView(R.id.tv_detail_event_organizer) TextView tvOrganizer;
+    @BindView(R.id.tv_detail_event_description) TextView tvDescription;
+    @BindView(R.id.tv_detail_event_location) TextView tvLocation;
+    @BindView(R.id.tv_detail_event_location_description) TextView tvLocationDescription;
+    @BindView(R.id.tv_detail_event_contact) TextView tvContactPerson;
+    @BindView(R.id.tv_detail_event_date) TextView tvDate;
+    @BindView(R.id.tv_detail_event_time) TextView tvTime;
+    @BindView(R.id.btn_detail_register) Button btnRegister;
+
     private Event event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-        setTitle("Detail Event");
-        setupView();
+        ButterKnife.bind(this);
 
+        setTitle("Detail Event");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (getIntent().hasExtra("event")) {
             event = getIntent().getParcelableExtra("event");
@@ -89,24 +93,10 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         tvTime.setText(event.getStartTime() + " - " + event.getEndTime());
     }
 
-    private void setupView() {
-        imgPoster = findViewById(R.id.img_detail_poster);
-        tvTitle = findViewById(R.id.tv_detail_event_title);
-        tvOrganizer = findViewById(R.id.tv_detail_event_organizer);
-        tvDescription = findViewById(R.id.tv_detail_event_description);
-        tvLocation = findViewById(R.id.tv_detail_event_location);
-        tvLocationDescription = findViewById(R.id.tv_detail_event_location_description);
-        tvContactPerson = findViewById(R.id.tv_detail_event_contact);
-        tvDate = findViewById(R.id.tv_detail_event_date);
-        tvTime = findViewById(R.id.tv_detail_event_time);
-        btnRegister = findViewById(R.id.btn_detail_register);
-        btnRegister.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment dialogFragment = new EventRegisterDialog();
-                dialogFragment.show(getFragmentManager(), "register_event");
-            }
-        });
+    @OnClick(R.id.btn_detail_register)
+    public void btnRegisterClick() {
+        DialogFragment dialogFragment = new EventRegisterDialog();
+        dialogFragment.show(getFragmentManager(), "register_event");
     }
 
     @Override

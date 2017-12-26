@@ -12,6 +12,9 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import id.ac.amikom.avent.main.BaseActivity;
 import id.ac.amikom.avent.main.MainActivity;
 import id.ac.amikom.avent.R;
@@ -24,13 +27,14 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
 
     private static final int RC_PHOTO_PICKER = 2;
     private static final String TAG = ProfileActivity.class.getSimpleName();
-    private ImageView mImgPhoto;
-    private ProgressBar mPbPhotoLoading;
-    private ProgressBar mPbLoading;
-    private EditText mEtNoId;
-    private EditText mEtName;
-    private EditText mEtOrganization;
-    private EditText mEtPhoneNumber;
+
+    @BindView(R.id.img_profile_photo) ImageView mImgPhoto;
+    @BindView(R.id.pb_profile_photo_loading) ProgressBar mPbPhotoLoading;
+    @BindView(R.id.pb_profile_loading) ProgressBar mPbLoading;
+    @BindView(R.id.et_profile_no_id) EditText mEtNoId;
+    @BindView(R.id.et_profile_name) EditText mEtName;
+    @BindView(R.id.et_profile_organization) EditText mEtOrganization;
+    @BindView(R.id.et_profile_phone) EditText mEtPhoneNumber;
 
     private UpdateUserProfile mUpdateUserProfile;
 
@@ -38,12 +42,12 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        ButterKnife.bind(this);
         setTitle("Profile");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mUpdateUserProfile = new UpdateUserProfile(this, this);
 
-        setupView();
         writeDataIfExists();
     }
 
@@ -106,16 +110,9 @@ public class ProfileActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
-    private void setupView() {
-        mImgPhoto = findViewById(R.id.img_profile_photo);
-        mPbPhotoLoading = findViewById(R.id.pb_profile_photo_loading);
-        mPbLoading = findViewById(R.id.pb_profile_loading);
-        mEtNoId = findViewById(R.id.et_profile_no_id);
-        mEtName = findViewById(R.id.et_profile_name);
-        mEtOrganization = findViewById(R.id.et_profile_organization);
-        mEtPhoneNumber = findViewById(R.id.et_profile_phone);
-
-        mImgPhoto.setOnClickListener(this);
+    @OnClick(R.id.img_profile_photo)
+    public void onImagePhotoClick() {
+        pickImageFromGallery();
     }
 
     private User buildUserData() {

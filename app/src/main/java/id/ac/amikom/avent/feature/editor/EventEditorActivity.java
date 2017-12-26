@@ -35,6 +35,9 @@ import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import id.ac.amikom.avent.main.BaseActivity;
 import id.ac.amikom.avent.R;
 import id.ac.amikom.avent.model.Event;
@@ -49,18 +52,18 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
     private static final int RC_PHOTO_PICKER = 2;
     private static final String TAG = EventEditorActivity.class.getSimpleName();
 
-    private ProgressBar mPbPhotoLoading;
-    private ProgressBar mPbLoading;
-    private ImageView mImgPoster;
-    private EditText mEtTitle;
-    private EditText mEtOrganizer;
-    private EditText mEtDescription;
-    private EditText mEtLocation;
-    private EditText mEtLocationDescription;
-    private EditText mEtContactPerson;
-    private EditText mEtDate;
-    private EditText mEtTimeStart;
-    private EditText mEtTimeEnd;
+    @BindView(R.id.pb_event_photo_loading) ProgressBar mPbPhotoLoading;
+    @BindView(R.id.pb_event_loading) ProgressBar mPbLoading;
+    @BindView(R.id.img_event_poster) ImageView mImgPoster;
+    @BindView(R.id.et_event_title) EditText mEtTitle;
+    @BindView(R.id.et_event_organizer) EditText mEtOrganizer;
+    @BindView(R.id.et_event_description) EditText mEtDescription;
+    @BindView(R.id.et_event_location) EditText mEtLocation;
+    @BindView(R.id.et_event_location_description) EditText mEtLocationDescription;
+    @BindView(R.id.et_event_cp) EditText mEtContactPerson;
+    @BindView(R.id.et_event_date) EditText mEtDate;
+    @BindView(R.id.et_event_start_time) EditText mEtTimeStart;
+    @BindView(R.id.et_event_end_time) EditText mEtTimeEnd;
     private Uri mEventPosterUri;
 
     private static final int PLACE_PICKER_REQUEST = 1;
@@ -73,8 +76,8 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event_editor);
+        ButterKnife.bind(this);
         setTitle("Add Event");
-        setupView();
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -106,66 +109,35 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
         }
     }
 
-    private void setupView() {
-        mImgPoster = findViewById(R.id.img_event_poster);
-        mEtTitle = findViewById(R.id.et_event_title);
-        mEtOrganizer = findViewById(R.id.et_event_organizer);
-        mEtDescription = findViewById(R.id.et_event_description);
-        mEtLocation = findViewById(R.id.et_event_location);
-        mEtLocationDescription = findViewById(R.id.et_event_location_description);
-        mEtContactPerson = findViewById(R.id.et_event_cp);
-        mEtDate = findViewById(R.id.et_event_date);
-        mEtTimeStart = findViewById(R.id.et_event_start_time);
-        mEtTimeEnd = findViewById(R.id.et_event_end_time);
-        mPbPhotoLoading = findViewById(R.id.pb_event_photo_loading);
-        mPbLoading = findViewById(R.id.pb_event_loading);
+    @OnClick(R.id.img_event_poster)
+    public void onPosterClick() {
+        DialogFragment datePicker = new DatePickerFragment();
+        datePicker.show(getFragmentManager(), "date_picker");
+    }
 
-        mImgPoster.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pickImageFromGallery();
-            }
-        });
-        mEtDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment datePicker = new DatePickerFragment();
-                datePicker.show(getFragmentManager(), "date_picker");
-            }
-        });
+    @OnClick(R.id.et_event_start_time)
+    public void onStartTimeClick() {
+        DialogFragment timePicker = new TimePickerFragment();
+        timePicker.show(getFragmentManager(), "time_start_picker");
+    }
 
-        mEtTimeStart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment timePicker = new TimePickerFragment();
-                timePicker.show(getFragmentManager(), "time_start_picker");
-            }
-        });
+    @OnClick(R.id.et_event_end_time)
+    public void onEndTimeClick() {
+        DialogFragment timePicker = new TimePickerFragment();
+        timePicker.show(getFragmentManager(), "time_end_picker");
+    }
 
-        mEtTimeEnd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment timePicker = new TimePickerFragment();
-                timePicker.show(getFragmentManager(), "time_end_picker");
-            }
-        });
+    @OnClick(R.id.et_event_location)
+    public void onLocationClick() {
+        PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
 
-        mEtLocation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
-
-                try {
-                    startActivityForResult(builder.build(EventEditorActivity.this), PLACE_PICKER_REQUEST);
-                } catch (GooglePlayServicesRepairableException e) {
-                    e.printStackTrace();
-                } catch (GooglePlayServicesNotAvailableException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-
+        try {
+            startActivityForResult(builder.build(EventEditorActivity.this), PLACE_PICKER_REQUEST);
+        } catch (GooglePlayServicesRepairableException e) {
+            e.printStackTrace();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

@@ -12,6 +12,9 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import id.ac.amikom.avent.main.BaseActivity;
 import id.ac.amikom.avent.main.MainActivity;
 import id.ac.amikom.avent.R;
@@ -19,14 +22,14 @@ import id.ac.amikom.avent.auth.AuthInteractor;
 import id.ac.amikom.avent.feature.register.SignUpActivity;
 
 public class LoginActivity extends BaseActivity
-        implements View.OnClickListener, AuthInteractor.OnAuthListener {
+        implements  AuthInteractor.OnAuthListener {
 
     private static final String TAG = LoginActivity.class.getSimpleName();
-    private EditText mEtEmail;
-    private EditText mEtPassword;
-    private TextView mTvForgotPassword;
-    private TextView mTvSignUp;
-    private Button mBtnLogin;
+    @BindView(R.id.et_login_email) EditText mEtEmail;
+    @BindView(R.id.et_login_password) EditText mEtPassword;
+    @BindView(R.id.tv_login_forgot) TextView mTvForgotPassword;
+    @BindView(R.id.tv_login_signup) TextView mTvSignUp;
+    @BindView(R.id.btn_login) Button mBtnLogin;
     private ProgressBar mPbLoading;
 
     private FirebaseUser mUser;
@@ -37,9 +40,8 @@ public class LoginActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        ButterKnife.bind(this);
         mAuthInteractor = new AuthInteractor(this);
-        setupView();
     }
 
     @Override
@@ -54,21 +56,6 @@ public class LoginActivity extends BaseActivity
             getMainApp().setUser(mUser);
             startActivity(new Intent(this, MainActivity.class));
             finish();
-        }
-    }
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.tv_login_forgot:
-                break;
-            case R.id.tv_login_signup:
-                startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
-                break;
-            case R.id.btn_login:
-                hideKeyboard();
-                loginWithEmailAndPassword();
-                break;
         }
     }
 
@@ -104,16 +91,19 @@ public class LoginActivity extends BaseActivity
         mPbLoading.setVisibility(View.GONE);
     }
 
-    private void setupView() {
-        mEtEmail = findViewById(R.id.et_login_email);
-        mEtPassword = findViewById(R.id.et_login_password);
-        mBtnLogin = findViewById(R.id.btn_login);
-        mTvSignUp = findViewById(R.id.tv_login_signup);
-        mTvForgotPassword = findViewById(R.id.tv_login_forgot);
-        mPbLoading = findViewById(R.id.pb_signin_loading);
+    @OnClick(R.id.btn_login)
+    public void onBtnLoginClick() {
+        hideKeyboard();
+        loginWithEmailAndPassword();
+    }
 
-        mBtnLogin.setOnClickListener(this);
-        mTvSignUp.setOnClickListener(this);
-        mTvForgotPassword.setOnClickListener(this);
+    @OnClick(R.id.tv_login_signup)
+    public void onTvSignUp() {
+        startActivity(new Intent(LoginActivity.this, SignUpActivity.class));
+    }
+
+    @OnClick(R.id.tv_login_forgot)
+    public void onForgotClick() {
+
     }
 }
