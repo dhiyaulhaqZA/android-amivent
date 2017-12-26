@@ -22,7 +22,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import id.ac.amikom.avent.R;
-import id.ac.amikom.avent.adapter.EventBoardAdapter;
 import id.ac.amikom.avent.feature.editor.EventEditorActivity;
 import id.ac.amikom.avent.feature.detail.DetailActivity;
 import id.ac.amikom.avent.model.Event;
