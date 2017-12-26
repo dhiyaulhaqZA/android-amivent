@@ -1,10 +1,13 @@
 package id.ac.amikom.avent.feature.detail;
 
+import android.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +20,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import id.ac.amikom.avent.R;
+import id.ac.amikom.avent.feature.registevent.EventRegisterDialog;
 import id.ac.amikom.avent.model.Event;
 import id.ac.amikom.avent.utility.ImageUtil;
 
@@ -31,6 +35,7 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
     private TextView tvContactPerson;
     private TextView tvDate;
     private TextView tvTime;
+    private Button btnRegister;
     private Event event;
 
     @Override
@@ -94,6 +99,14 @@ public class DetailActivity extends AppCompatActivity implements OnMapReadyCallb
         tvContactPerson = findViewById(R.id.tv_detail_event_contact);
         tvDate = findViewById(R.id.tv_detail_event_date);
         tvTime = findViewById(R.id.tv_detail_event_time);
+        btnRegister = findViewById(R.id.btn_detail_register);
+        btnRegister.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment dialogFragment = new EventRegisterDialog();
+                dialogFragment.show(getFragmentManager(), "register_event");
+            }
+        });
     }
 
     @Override

@@ -154,6 +154,7 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
     </android.support.v4.widget.NestedScrollView>
 
     <Button
+        android:id="@+id/btn_detail_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
