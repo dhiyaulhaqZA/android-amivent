@@ -1,1 +1,1 @@
-[{"outputType":{"type":"APK"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":1},"path":"app-release.apk","properties":{"packageId":"id.ac.amikom.amivent","split":"","minSdkVersion":"15"}}]
+[{"outputType":{"type":"APK"},"apkInfo":{"type":"MAIN","splits":[],"versionCode":160000001},"path":"avent-0.0.1-release.apk","properties":{"packageId":"id.ac.amikom.amivent","split":"","minSdkVersion":"16"}}]

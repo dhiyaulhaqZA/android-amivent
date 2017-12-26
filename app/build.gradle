@@ -1,14 +1,22 @@
 apply plugin: 'com.android.application'
 
+ext.majorVersion = 0
+ext.minorVersion = 0
+ext.patchVersion = 1
+ext.preRelease = ""
+ext.minSdkVersion = 16
+ext.supportLibVersion = "26.1.0"
+
 android {
     compileSdkVersion 26
     defaultConfig {
         applicationId "id.ac.amikom.amivent"
-        minSdkVersion 15
+        minSdkVersion project.ext.minSdkVersion
         targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
+        versionCode generateVersionCode()
+        versionName generateVersionName()
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        project.ext.set("archivesBaseName", "avent" + "-" + generateVersionName())
     }
     buildTypes {
         release {
@@ -18,6 +26,17 @@ android {
     }
 }
 
+private Integer generateVersionCode() {
+    return ext.minSdkVersion * 10000000 + ext.majorVersion * 10000 + ext.minorVersion * 100 + ext.patchVersion
+}
+
+private String generateVersionName() {
+    String versionName = "${ext.majorVersion}.${ext.minorVersion}.${ext.patchVersion}"
+    if (ext.preRelease != null && !ext.preRelease.isEmpty()) {
+        versionName = versionName + "-" + ext.preRelease
+    }
+    return versionName
+}
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
