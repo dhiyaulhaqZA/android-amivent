@@ -15,6 +15,7 @@
             android:value="AIzaSyBGQlakrkEAA_xV-79xs70L1Txh6RMXLF0" />
 
         <activity android:name=".feature.login.LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AuthTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,18 +24,24 @@
             </intent-filter>
         </activity>
         <activity android:name=".feature.register.SignUpActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AuthTheme"/>
-        <activity android:name=".feature.profile.ProfileActivity" />
+        <activity android:name=".feature.profile.ProfileActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".main.BaseActivity" />
         <activity
             android:name=".main.MainActivity"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".feature.editor.EventEditorActivity"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".feature.placepicker.PlacePickerActivity" />
-        <activity android:name=".feature.detail.DetailActivity"></activity>
+        <activity android:name=".feature.placepicker.PlacePickerActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".feature.detail.DetailActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
