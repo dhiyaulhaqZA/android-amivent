@@ -42,7 +42,7 @@
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="8dp"
-            android:text="Deskripsi" />
+            android:text="@string/label_deskripsi" />
 
         <TextView
             android:id="@+id/tv_detail_event_description"
@@ -65,7 +65,7 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="8dp"
-            android:text="Contact" />
+            android:text="@string/label_contact" />
 
         <TextView
             android:id="@+id/tv_detail_event_contact"
@@ -83,7 +83,7 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="8dp"
-            android:text="Tanggal" />
+            android:text="@string/label_tanggal" />
 
         <TextView
             android:id="@+id/tv_detail_event_date"
@@ -101,7 +101,7 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="8dp"
-            android:text="Waktu" />
+            android:text="@string/label_waktu" />
 
         <TextView
             android:id="@+id/tv_detail_event_time"
@@ -119,7 +119,7 @@ proident, sunt in culpa qui officia deserunt mollit anim id est laborum." />
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:paddingTop="8dp"
-            android:text="Alamat" />
+            android:text="@string/label_alamat" />
 
         <TextView
             android:id="@+id/tv_detail_event_location"
