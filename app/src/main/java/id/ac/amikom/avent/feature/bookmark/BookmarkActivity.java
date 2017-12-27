@@ -2,7 +2,9 @@ package id.ac.amikom.avent.feature.bookmark;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 
+import butterknife.BindView;
 import id.ac.amikom.avent.R;
 
 public class BookmarkActivity extends AppCompatActivity {
