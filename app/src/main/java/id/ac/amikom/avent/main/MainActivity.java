@@ -19,6 +19,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import id.ac.amikom.avent.R;
 import id.ac.amikom.avent.feature.bookmark.BookmarkActivity;
+import id.ac.amikom.avent.feature.mytickets.MyTicketsActivity;
+import id.ac.amikom.avent.feature.organize.OrganizeEventActivity;
 import id.ac.amikom.avent.feature.timeline.EventBoardFragment;
 import id.ac.amikom.avent.feature.login.LoginActivity;
 import id.ac.amikom.avent.feature.profile.ProfileActivity;
@@ -95,6 +97,12 @@ public class MainActivity extends BaseActivity
                 break;
             case R.id.nav_bookmark:
                 startActivity(new Intent(MainActivity.this, BookmarkActivity.class));
+                break;
+            case R.id.nav_my_tickets:
+                startActivity(new Intent(MainActivity.this, MyTicketsActivity.class));
+                break;
+            case R.id.nav_organize:
+                startActivity(new Intent(MainActivity.this, OrganizeEventActivity.class));
                 break;
             case R.id.nav_profile:
                 startActivity(new Intent(MainActivity.this, ProfileActivity.class));

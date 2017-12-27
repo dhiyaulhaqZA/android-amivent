@@ -47,7 +47,9 @@
         <activity
             android:name=".feature.detail.DetailActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".feature.bookmark.BookmarkActivity"></activity>
+        <activity android:name=".feature.bookmark.BookmarkActivity" />
+        <activity android:name=".feature.mytickets.MyTicketsActivity" />
+        <activity android:name=".feature.organize.OrganizeEventActivity"></activity>
     </application>
 
 </manifest>
