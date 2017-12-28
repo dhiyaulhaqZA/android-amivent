@@ -47,7 +47,9 @@ import id.ac.amikom.avent.picker.DatePickerListener;
 import id.ac.amikom.avent.picker.TimePickerFragment;
 import id.ac.amikom.avent.picker.TimePickerListener;
 
-public class EventEditorActivity extends BaseActivity implements DatePickerListener, TimePickerListener, GoogleApiClient.OnConnectionFailedListener {
+public class EventEditorActivity extends BaseActivity implements DatePickerListener,
+        ImageUploaderListener, TimePickerListener, GoogleApiClient.OnConnectionFailedListener,
+        EventUploaderListener   {
 
     private static final int RC_PHOTO_PICKER = 2;
     private static final String TAG = EventEditorActivity.class.getSimpleName();
@@ -71,6 +73,8 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
     private PlaceDetectionClient placeDetectionClient;
     private GoogleApiClient mGoogleApiClient;
     private Place place;
+    private ImageUploader imageUploader;
+    private EventUploader eventUploader;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,21 +82,22 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
         setContentView(R.layout.activity_event_editor);
         ButterKnife.bind(this);
         setTitle("Add Event");
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        initializeComponent();
+    }
+
+    private void initializeComponent() {
+        imageUploader = new ImageUploader(this);
+        eventUploader = new EventUploader(this);
         mGeoDataClient = Places.getGeoDataClient(this, null);
-
-        // Construct a PlaceDetectionClient.
         placeDetectionClient = Places.getPlaceDetectionClient(this, null);
-
         mGoogleApiClient = new GoogleApiClient
                 .Builder(this)
                 .addApi(Places.GEO_DATA_API)
                 .addApi(Places.PLACE_DETECTION_API)
                 .enableAutoManage(this, this)
                 .build();
-
     }
 
     @Override
@@ -160,7 +165,10 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
                 if (selectedImageUri == null) return;
 
                 mImgPoster.setImageURI(selectedImageUri);
-                uploadPosterEvent(selectedImageUri);
+                imageUploader.uploadImage(selectedImageUri,
+                        getMainApp().getUser().getUid()
+                                + System.currentTimeMillis() + ".jpg");
+
             } else if (requestCode == PLACE_PICKER_REQUEST) {
                 place = PlacePicker.getPlace(this, data);
                 mEtLocation.setText(place.getAddress());
@@ -175,30 +183,6 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
 
     }
 
-    private void uploadPosterEvent(Uri selectedImageUri) {
-        mPbPhotoLoading.setVisibility(View.VISIBLE);
-        StorageReference mEventPosterStorageReference = FirebaseStorage.getInstance().getReference();
-        StorageReference photoRef = mEventPosterStorageReference
-                .child("event_board")
-                .child("poster")
-                .child(getMainApp().getUser().getUid() + System.currentTimeMillis() + ".jpg");
-
-        photoRef.putFile(selectedImageUri)
-                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                    @Override
-                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                        mPbPhotoLoading.setVisibility(View.GONE);
-                        mEventPosterUri = taskSnapshot.getDownloadUrl();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        mPbPhotoLoading.setVisibility(View.GONE);
-                    }
-                });
-    }
-
     private void pickImageFromGallery() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/jpeg");
@@ -210,27 +194,7 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
         mPbLoading.setVisibility(View.VISIBLE);
         Event event = buildEvent();
         if (event.getTitle().equals("") && event.getDate().equals("")) return;
-
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference mDatabase = firebaseDatabase.getReference("event_board");
-        mDatabase.push()
-                .setValue(event)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        mPbLoading.setVisibility(View.GONE);
-                        Toast.makeText(EventEditorActivity.this, "Post success", Toast.LENGTH_SHORT).show();
-                        finish();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        mPbLoading.setVisibility(View.GONE);
-                        Toast.makeText(EventEditorActivity.this, "Post Failed", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
+        eventUploader.postEvent(event);
     }
 
     private Event buildEvent() {
@@ -282,5 +246,51 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         Log.w(TAG, "onConnectionFailed: ");
+    }
+
+    @Override
+    public void onImageUploadLoadingStart() {
+        mPbPhotoLoading.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onImageUploadLoadingStop() {
+        mPbPhotoLoading.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void onImageUploadSuccess(Uri eventPosterUri) {
+        mEventPosterUri = eventPosterUri;
+        Log.d(TAG, "onImageUploadSuccess ");
+    }
+
+    @Override
+    public void onImageUploadFailure(String errMsg) {
+        mPbPhotoLoading.setVisibility(View.GONE);
+        Log.w(TAG, "onImageUploadFailure: " + errMsg);
+    }
+
+    @Override
+    public void onEventUploadLoadingStart() {
+        mPbLoading.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void onEventUploadLoadingStop() {
+        mPbLoading.setVisibility(View.GONE);
+
+    }
+
+    @Override
+    public void onEventUploadSuccess() {
+        Toast.makeText(EventEditorActivity.this, "Post success", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    @Override
+    public void onEventUploadFailure(String errMsg) {
+        Toast.makeText(EventEditorActivity.this, "Post Failed", Toast.LENGTH_SHORT).show();
+        Log.w(TAG, "onEventUploadFailure: " + errMsg);
     }
 }

@@ -15,7 +15,7 @@
             android:value="AIzaSyBGQlakrkEAA_xV-79xs70L1Txh6RMXLF0" />
 
         <activity
-            android:name=".feature.login.LoginActivity"
+            android:name=".feature.auth.LoginActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AuthTheme">
             <intent-filter>
@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".feature.register.SignUpActivity"
+            android:name=".feature.auth.SignUpActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AuthTheme" />
         <activity

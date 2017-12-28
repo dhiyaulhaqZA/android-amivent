@@ -1,4 +1,4 @@
-package id.ac.amikom.avent.feature.login;
+package id.ac.amikom.avent.feature.auth;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,8 +18,6 @@ import butterknife.OnClick;
 import id.ac.amikom.avent.main.BaseActivity;
 import id.ac.amikom.avent.main.MainActivity;
 import id.ac.amikom.avent.R;
-import id.ac.amikom.avent.auth.AuthInteractor;
-import id.ac.amikom.avent.feature.register.SignUpActivity;
 
 public class LoginActivity extends BaseActivity
         implements  AuthInteractor.OnAuthListener {

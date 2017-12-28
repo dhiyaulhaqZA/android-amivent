@@ -1,4 +1,4 @@
-package id.ac.amikom.avent.auth;
+package id.ac.amikom.avent.feature.auth;
 
 import android.support.annotation.NonNull;
 import android.util.Patterns;
