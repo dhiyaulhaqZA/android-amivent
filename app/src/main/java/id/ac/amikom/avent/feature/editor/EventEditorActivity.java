@@ -101,7 +101,7 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
             case android.R.id.home:
                 finish();
                 return true;
-            case R.menu.menu_create:
+            case R.id.action_upload:
                 postNewEvent();
                 return true;
             default:
@@ -111,6 +111,11 @@ public class EventEditorActivity extends BaseActivity implements DatePickerListe
 
     @OnClick(R.id.img_event_poster)
     public void onPosterClick() {
+        pickImageFromGallery();
+    }
+
+    @OnClick(R.id.et_event_date)
+    public void onDateClick() {
         DialogFragment datePicker = new DatePickerFragment();
         datePicker.show(getFragmentManager(), "date_picker");
     }

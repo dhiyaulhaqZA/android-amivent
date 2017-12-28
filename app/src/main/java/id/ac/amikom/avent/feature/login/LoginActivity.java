@@ -30,7 +30,7 @@ public class LoginActivity extends BaseActivity
     @BindView(R.id.tv_login_forgot) TextView mTvForgotPassword;
     @BindView(R.id.tv_login_signup) TextView mTvSignUp;
     @BindView(R.id.btn_login) Button mBtnLogin;
-    private ProgressBar mPbLoading;
+    @BindView(R.id.pb_signin_loading) ProgressBar mPbLoading;
 
     private FirebaseUser mUser;
     private AuthInteractor mAuthInteractor;

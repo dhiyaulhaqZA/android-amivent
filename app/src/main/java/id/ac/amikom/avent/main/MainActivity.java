@@ -131,7 +131,6 @@ public class MainActivity extends BaseActivity
     public void onUserFetchSuccess(User user) {
         UserPref userPref = new UserPref(this);
         userPref.setUser(user);
-        Log.d("TAG", "onUserFetchSuccess: " + user.getNoId());
     }
 
     @Override
