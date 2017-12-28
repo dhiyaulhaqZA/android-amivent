@@ -14,4 +14,13 @@
     <string name="label_tanggal">Tanggal</string>
     <string name="label_waktu">Waktu</string>
     <string name="label_alamat">Alamat</string>
+    <string name="hint_title">Title</string>
+    <string name="hint_organizer">Organizer</string>
+    <string name="hint_description">Description</string>
+    <string name="hint_location">Location</string>
+    <string name="hint_location_description">Location Description</string>
+    <string name="hint_contact_person">Contact person</string>
+    <string name="hint_date">Date</string>
+    <string name="hint_time_start">Time start</string>
+    <string name="hint_time_end">Time end</string>
 </resources>
